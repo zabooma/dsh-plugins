@@ -1,5 +1,5 @@
 /**
- * dsh-memory — persistent cross-session memory for DeepSeek Harness (DSH) agents.
+ * dsh-memory-notes — persistent cross-session memory for DeepSeek Harness (DSH) agents.
  *
  * MIT License — see LICENSE.
  *

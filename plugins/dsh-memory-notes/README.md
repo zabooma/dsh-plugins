@@ -1,4 +1,4 @@
-# dsh-memory
+# dsh-memory-notes
 
 Persistent cross-session memory for [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) (DSH) agents.
 
@@ -23,7 +23,7 @@ notes that survive it:
 Requires pnpm (the `dsh plugin` command forwards to it):
 
 ```sh
-dsh plugin --profile web add dsh-memory      # or: --profile headless, --profile <name>
+dsh plugin --profile web add dsh-memory-notes      # or: --profile headless, --profile <name>
 ```
 
 Then add the bundle row to the profile manifest
@@ -35,7 +35,7 @@ Then add the bundle row to the profile manifest
     "bundles": [
       "@deepseek-ai/dsh-base",
       "@deepseek-ai/dsh-web-app",
-      "dsh-memory"
+      "dsh-memory-notes"
     ]
   }
 }
@@ -82,10 +82,10 @@ them.
 ## Development
 
 Local install without pnpm: symlink the checkout into the shared profile
-node_modules, then add `dsh-memory` to the profile's bundle list.
+node_modules, then add `dsh-memory-notes` to the profile's bundle list.
 
 ```sh
-ln -s "$(pwd)" "$DSH_HOME/profiles/node_modules/dsh-memory"
+ln -s "$(pwd)" "$DSH_HOME/profiles/node_modules/dsh-memory-notes"
 ```
 
 The plugin is a single ESM file (`index.js`), a Cordis plugin exporting

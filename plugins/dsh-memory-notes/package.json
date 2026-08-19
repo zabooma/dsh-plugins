@@ -1,5 +1,5 @@
 {
-  "name": "dsh-memory",
+  "name": "dsh-memory-notes",
   "version": "0.1.0",
   "description": "Persistent cross-session memory for DeepSeek Harness (DSH) agents: injects markdown notes into every session's system prompt and adds a `remember` tool that maintains them host-side, outside the agent's file sandbox.",
   "type": "module",
@@ -44,5 +44,11 @@
     "@deepseek-ai/schemastery": {
       "optional": true
     }
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zabooma/dsh-plugins.git",
+    "directory": "plugins/dsh-memory-notes"
+  },
+  "homepage": "https://github.com/zabooma/dsh-plugins/tree/main/plugins/dsh-memory-notes"
 }

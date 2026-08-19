@@ -10,7 +10,7 @@ format where applicable).
 
 | Plugin | What it does |
 | --- | --- |
-| [`dsh-memory`](plugins/dsh-memory/README.md) | Persistent cross-session memory: injects `~/.dsh/memory/*.md` notes into every session's system prompt and adds a `remember` tool that maintains them host-side, outside the agent's file sandbox. |
+| [`dsh-memory-notes`](plugins/dsh-memory-notes/README.md) | Persistent cross-session memory: injects `~/.dsh/memory/*.md` notes into every session's system prompt and adds a `remember` tool that maintains them host-side, outside the agent's file sandbox. |
 
 ## Installing a plugin
 
@@ -25,7 +25,7 @@ profile's `dsh.profile.bundles`, and restart the profile. Development install
 dsh-plugins/
 ├── README.md
 └── plugins/
-    └── dsh-memory/
+    └── dsh-memory-notes/
         ├── index.js            # the Cordis plugin (ESM, single file)
         ├── cordis.patch.yml    # bundle patch row
         ├── package.json        # name + dsh.bundle.patch + peers

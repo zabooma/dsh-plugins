@@ -4,7 +4,7 @@
 
 - insert:
     - id: memory
-      name: 'dsh-memory'
+      name: 'dsh-memory-notes'
       config:
         memoryDir: ''
         maxBytes: 16384
