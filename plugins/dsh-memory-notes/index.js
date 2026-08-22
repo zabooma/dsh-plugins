@@ -20,7 +20,7 @@ import z from "@deepseek-ai/schemastery"
 import { dshHomePath } from "@deepseek-ai/dsh-home-paths"
 import { defineTool } from "@deepseek-ai/dsh-tools"
 
-export const name = "dsh-memory"
+export const name = "dsh-memory-notes"
 
 /** Cordis services this plugin reads from the context. */
 export const inject = ["tools", "systemPrompt"]
@@ -138,7 +138,7 @@ function renderNotes(dir, maxBytes, maxFiles) {
     parts.push(block)
     used += size
   }
-  if (truncated) parts.push(`(dsh-memory: further notes omitted — byte budget ${maxBytes} reached)`)
+  if (truncated) parts.push(`(dsh-memory-notes: further notes omitted — byte budget ${maxBytes} reached)`)
   return parts.join("\n\n")
 }
 
@@ -205,11 +205,11 @@ export function apply(ctx, config) {
         const action = args.action
         if (action === "list") {
           const entries = listNotes(dir)
-          if (entries.length === 0) return { action, detail: `dsh-memory: no notes yet (directory ${dir}). Use action "add" to create one.` }
+          if (entries.length === 0) return { action, detail: `dsh-memory-notes: no notes yet (directory ${dir}). Use action "add" to create one.` }
           const lines = entries.map(
             (e) => `- ${e.slug} — ${e.topic} — updated ${e.updated || "?"} — status ${e.status} — ${e.bytes}B`,
           )
-          return { action, detail: `dsh-memory notes (${entries.length}):\n${lines.join("\n")}` }
+          return { action, detail: `dsh-memory-notes (${entries.length}):\n${lines.join("\n")}` }
         }
         const slug = args.slug
         if (!slug) throw new Error(`remember: action "${action}" requires a slug`)
@@ -221,7 +221,7 @@ export function apply(ctx, config) {
           const path = join(dir, `${slug}.md`)
           if (existsSync(path)) throw new Error(`remember: note "${slug}" already exists; use action "update" to revise it`)
           writeNote(dir, slug, args.body ?? "", { topic: slug, updated: today(), status: "active" })
-          return { action, detail: `dsh-memory: added note "${slug}" (${path}). It will be injected into future sessions' context.` }
+          return { action, detail: `dsh-memory-notes: added note "${slug}" (${path}). It will be injected into future sessions' context.` }
         }
         if (action === "update") {
           const existing = readNote(dir, slug)
@@ -231,7 +231,7 @@ export function apply(ctx, config) {
             updated: today(),
             status: attrs.status ?? "active",
           })
-          return { action, detail: `dsh-memory: updated note "${slug}" (${join(dir, `${slug}.md`)}).` }
+          return { action, detail: `dsh-memory-notes: updated note "${slug}" (${join(dir, `${slug}.md`)}).` }
         }
         throw new Error(`remember: unknown action "${action}"`)
       },

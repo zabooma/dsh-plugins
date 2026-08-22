@@ -1,4 +1,4 @@
-# The dsh-memory bundle patch. One insert row over the empty profile root.
+# The dsh-memory-notes bundle patch. One insert row over the empty profile root.
 # Users may override any config value by re-addressing row `memory` in their
 # own `$DSH_HOME/cordis.patch.yml` (last write wins per row).
 
