@@ -1,0 +1,39 @@
+{
+  "name": "dsh-model-override",
+  "version": "0.1.0",
+  "description": "Override the DSH default model via DSH_MODEL env var (format: provider/model). Lets you switch models per invocation without touching settings.yaml.",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "cordis",
+    "plugin",
+    "model",
+    "override",
+    "agent"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zabooma/dsh-plugins.git",
+    "directory": "plugins/dsh-model-override"
+  },
+  "homepage": "https://github.com/zabooma/dsh-plugins/tree/main/plugins/dsh-model-override"
+}

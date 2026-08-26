@@ -1,0 +1,7 @@
+# The dsh-model-override bundle patch. One insert row over the empty profile root.
+# Users may override any config value by re-addressing row `model-override` in
+# their own `$DSH_HOME/cordis.patch.yml` (last write wins per row).
+
+- insert:
+    - id: model-override
+      name: 'dsh-model-override'

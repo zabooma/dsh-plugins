@@ -11,6 +11,7 @@ format where applicable).
 | Plugin | What it does |
 | --- | --- |
 | [`dsh-memory-notes`](plugins/dsh-memory-notes/README.md) | Persistent cross-session memory: injects `~/.dsh/memory/*.md` notes into every session's system prompt and adds a `remember` tool that maintains them host-side, outside the agent's file sandbox. |
+| [`dsh-model-override`](plugins/dsh-model-override/README.md) | Override the default model via `DSH_MODEL` env var (format: `provider/model[@effort]`). Switch models per invocation without touching `settings.yaml`. |
 
 ## Installing a plugin
 
@@ -25,11 +26,17 @@ profile's `dsh.profile.bundles`, and restart the profile. Development install
 dsh-plugins/
 ├── README.md
 └── plugins/
-    └── dsh-memory-notes/
+    ├── dsh-memory-notes/
+    │   ├── index.js            # the Cordis plugin (ESM, single file)
+    │   ├── cordis.patch.yml    # bundle patch row
+    │   ├── package.json        # name + dsh.bundle.patch + peers
+    │   ├── README.md           # install + config + format docs
+    │   └── LICENSE
+    └── dsh-model-override/
         ├── index.js            # the Cordis plugin (ESM, single file)
         ├── cordis.patch.yml    # bundle patch row
-        ├── package.json        # name + dsh.bundle.patch + peers
-        ├── README.md           # install + config + format docs
+        ├── package.json        # name + dsh.bundle.patch
+        ├── README.md           # install + usage docs
         └── LICENSE
 ```
 
