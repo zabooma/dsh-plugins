@@ -1,6 +1,6 @@
 {
   "name": "dsh-model-override",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Override the DSH default model via DSH_MODEL env var (format: provider/model). Lets you switch models per invocation without touching settings.yaml.",
   "type": "module",
   "main": "index.js",
