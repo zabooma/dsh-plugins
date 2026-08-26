@@ -35,18 +35,16 @@ Restart the profile for the new bundle to load.
 ## Usage
 
 ```sh
-# Just a model
+# Switch model
 DSH_MODEL=openrouter/stealth/ox-alpha dsh --profile headless "run the tests"
 
-# With reasoning effort (separated by @)
-DSH_MODEL=deepseek/deepseek-chat@high dsh --profile headless "explain this code"
-DSH_MODEL=deepseek/deepseek-chat@low dsh --profile headless "summarize this"
+# Model with colon in the name (openrouter tier suffix)
+DSH_MODEL=openrouter/poolside/laguna-s-2.1:free dsh --profile headless "do something"
 
-# Model name containing a colon (works fine — @ is the effort separator)
-DSH_MODEL=poolside/laguna-s-2.1:free dsh --profile headless "do something"
+# With reasoning effort (separated by @) — not all models support this
+DSH_MODEL=openrouter/poolside/laguna-s-2.1:free@low dsh --profile headless "explain this code"
 
-# Both colon in model name AND effort
-DSH_MODEL=poolside/laguna-s-2.1:free@high dsh --profile headless "do something"
+
 ```
 
 ## Format
@@ -55,7 +53,7 @@ DSH_MODEL=poolside/laguna-s-2.1:free@high dsh --profile headless "do something"
 DSH_MODEL=provider/model[@effort]
 ```
 
-- **provider** — the registered provider route (e.g. `openrouter`, `deepseek`)
+- **provider** — the registered provider route (e.g. `openrouter`)
 - **model** — the provider-owned model id (may contain slashes and colons)
 - **effort** — optional, after `@`. Passed through to the adapter as-is; effort names are adapter-specific (DeepSeek uses `off`/`low`/`high`/`max`, other adapters may differ or not support effort at all).
 
@@ -73,9 +71,8 @@ The plugin monkey-patches `ctx.agentDefaultModel.currentSelection()` to return t
 |---|---|---|---|
 | Not set | — no-op — | | |
 | `openrouter/stealth/ox-alpha` | openrouter | stealth/ox-alpha | (adapter default) |
-| `deepseek/deepseek-chat@high` | deepseek | deepseek-chat | high |
-| `poolside/laguna-s-2.1:free` | poolside | laguna-s-2.1:free | (adapter default) |
-| `poolside/laguna-s-2.1:free@low` | poolside | laguna-s-2.1:free | low |
+| `openrouter/poolside/laguna-s-2.1:free` | openrouter | poolside/laguna-s-2.1:free | (adapter default) |
+| `openrouter/poolside/laguna-s-2.1:free@low` | openrouter | poolside/laguna-s-2.1:free | low |
 | `foo` (no slash) | error logged, no-op | | |
 
 ## Development
