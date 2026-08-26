@@ -43,8 +43,6 @@ DSH_MODEL=openrouter/poolside/laguna-s-2.1:free dsh --profile headless "do somet
 
 # With reasoning effort (separated by @) — not all models support this
 DSH_MODEL=openrouter/poolside/laguna-s-2.1:free@low dsh --profile headless "explain this code"
-
-
 ```
 
 ## Format
