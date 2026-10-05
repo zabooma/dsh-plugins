@@ -20,11 +20,16 @@ notes that survive it:
 
 ## Install
 
-Requires pnpm (the `dsh plugin` command forwards to it):
+DSH's installer forwards to pnpm, so pnpm must be on `PATH`:
 
 ```sh
 dsh plugin --profile web add dsh-memory-notes      # or: --profile headless, --profile <name>
 ```
+
+Without pnpm it stops with `dsh: pnpm was not found; install pnpm and make it
+available on PATH.` Where pnpm exists, prefer this route: DSH validates the
+package's DSH peer ranges *before* installing, so a runtime the plugin does not
+support refuses the install instead of skipping the bundle later.
 
 Then add the bundle row to the profile manifest
 `$DSH_HOME/profiles/<name>/package.json`:
@@ -41,11 +46,33 @@ Then add the bundle row to the profile manifest
 }
 ```
 
-Restart the profile for the new bundle to load, then verify:
+### Without pnpm
+
+A profile directory is a plain package project, so npm works as well:
+
+```sh
+cd "$DSH_HOME/profiles/web"
+npm i dsh-memory-notes
+```
+
+npm does not run DSH's install-time peer check, so an incompatible
+`@deepseek-ai/dsh-*` peer range is reported only when the profile starts.
+
+Restart the profile for the new bundle to load (an HMR-enabled profile
+recomposes instead), then verify:
 
 ```sh
 dsh --profile web --dump-config | grep -A 8 memory
 ```
+
+If that prints `dsh: skipping profile bundle "dsh-memory-notes"`, the installed
+version's peer ranges do not cover your DSH runtime — install a compatible
+version rather than granting a version exemption, which leaves the stale range
+in place and switches the check off for that pair.
+
+`npm` run from inside a DSH session can fail with `EPERM ... ~/.npm/_cacache`
+because the npm cache sits outside the session's file sandbox; add
+`--cache /tmp/npm-cache-dsh` when it does.
 
 ## Configuration
 
@@ -81,12 +108,20 @@ them.
 
 ## Development
 
-Local install without pnpm: symlink the checkout into the shared profile
-node_modules, then add `dsh-memory-notes` to the profile's bundle list.
+To run the checkout instead of a published version, install the directory
+itself. npm records a `file:` dependency and symlinks it, so edits here are
+live in the profile:
 
 ```sh
-ln -s "$(pwd)" "$DSH_HOME/profiles/node_modules/dsh-memory-notes"
+cd "$DSH_HOME/profiles/web"
+npm i file:/path/to/dsh-plugins/plugins/dsh-memory-notes
 ```
+
+The pnpm equivalent is
+`dsh plugin --profile web add /path/to/dsh-plugins/plugins/dsh-memory-notes`;
+DSH reads an absolute path's `package.json` before installing it. Either way the
+profile's `package.json` records the link, so a later plain `install` does not
+drop it.
 
 The plugin is a single ESM file (`index.js`), a Cordis plugin exporting
 `{ name, Config, apply }`, wired through `cordis.patch.yml` as a bundle patch

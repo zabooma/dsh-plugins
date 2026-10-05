@@ -12,8 +12,19 @@ This Cordis plugin reads `DSH_MODEL` env var and overrides `ctx.agentDefaultMode
 
 ## Install
 
+DSH's installer forwards to pnpm, so pnpm must be on `PATH`:
+
 ```sh
 dsh plugin --profile headless add dsh-model-override
+```
+
+Without pnpm it stops with `dsh: pnpm was not found; install pnpm and make it
+available on PATH.` Where pnpm exists, prefer this route: DSH validates the
+package's DSH peer ranges *before* installing. With npm instead:
+
+```sh
+cd "$DSH_HOME/profiles/headless"
+npm i dsh-model-override
 ```
 
 Then add the bundle to the profile manifest `$DSH_HOME/profiles/<name>/package.json`:
@@ -30,7 +41,14 @@ Then add the bundle to the profile manifest `$DSH_HOME/profiles/<name>/package.j
 }
 ```
 
-Restart the profile for the new bundle to load.
+Restart the profile for the new bundle to load (an HMR-enabled profile
+recomposes instead). If startup prints `skipping profile bundle
+"dsh-model-override"`, the installed version's DSH peer ranges do not cover your
+runtime.
+
+`npm` run from inside a DSH session can fail with `EPERM ... ~/.npm/_cacache`
+because the npm cache sits outside the session's file sandbox; add
+`--cache /tmp/npm-cache-dsh` when it does.
 
 ## Usage
 
@@ -75,11 +93,20 @@ The plugin monkey-patches `ctx.agentDefaultModel.currentSelection()` to return t
 
 ## Development
 
-Local install without pnpm: symlink the checkout into the shared profile node_modules, then add `dsh-model-override` to the profile's bundle list.
+To run the checkout instead of a published version, install the directory
+itself. npm records a `file:` dependency and symlinks it, so edits here are
+live in the profile:
 
 ```sh
-ln -s "$(pwd)" "$DSH_HOME/profiles/node_modules/dsh-model-override"
+cd "$DSH_HOME/profiles/headless"
+npm i file:/path/to/dsh-plugins/plugins/dsh-model-override
 ```
+
+The pnpm equivalent is
+`dsh plugin --profile headless add /path/to/dsh-plugins/plugins/dsh-model-override`;
+DSH reads an absolute path's `package.json` before installing it. Either way the
+profile's `package.json` records the link, so a later plain `install` does not
+drop it.
 
 ## License
 

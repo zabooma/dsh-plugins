@@ -15,10 +15,18 @@ format where applicable).
 
 ## Installing a plugin
 
-From its README, in short: install the package into a profile
-(`dsh plugin --profile <name> add <package>`), add the bundle row to the
-profile's `dsh.profile.bundles`, and restart the profile. Development install
-(live symlink, no pnpm) is also covered per plugin.
+From its README, in short: `dsh plugin --profile <name> add <package>` installs
+the package and validates its DSH peer ranges up front — that command forwards
+to **pnpm**, so pnpm must be on `PATH`, and npm works as a fallback for profiles
+without it. Then add the bundle row to the profile's `dsh.profile.bundles` and
+restart the profile, or let an HMR-enabled profile recompose. Each plugin README
+also covers installing the checkout itself for development.
+
+An incompatible plugin is refused by the installer, but a profile can also
+*skip* a bundle whose declared `@deepseek-ai/dsh-*` peer ranges do not cover the
+running DSH — startup prints `skipping profile bundle "<package>"` and the
+plugin silently does nothing. Install a compatible plugin version rather than
+granting a version exemption.
 
 ## Layout
 
